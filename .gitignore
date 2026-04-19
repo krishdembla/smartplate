@@ -16,11 +16,15 @@ __pycache__/
 # Jupyter
 .ipynb_checkpoints/
 
-# Model weights and large binaries
-*.safetensors
-*.pt
+# Large binary model weights (not the 14 MB SegFormer-B0 checkpoint)
 *.bin
 *.npy
+
+# Smoke test training history (not meaningful — real run history lives in Drive)
+code/checkpoints/train_history.json
+
+# Custom plate photos (personal test images, not part of the project)
+code/assets/custom_plates/
 
 # Dataset cache (auto-downloaded by notebooks)
 ~/.cache/huggingface/

@@ -47,11 +47,16 @@ SmartPlate takes a single photo of a food plate and outputs:
 | `foodseg103_to_groups.csv` — all 104 classes mapped | Done |
 | `usda_macros.csv` — macros table filled | Done |
 | `smartplate.py` — scoring, nutrition, viz, inference | Done |
-| SegFormer-B0 fine-tuning (`02_train_segformer.ipynb`) | Ready to run (needs ~5–7 h on M2 macbook air) |
-| ResNet50 baseline (`03_train_baseline.ipynb`) | Not started |
-| End-to-end demo (`04_demo.ipynb`) | Not started |
+| SegFormer-B0 fine-tuning (`02_train_segformer.ipynb`) | Done — trained on Colab T4, checkpoint at `code/checkpoints/segformer_best/` |
+| ResNet50 baseline (`03_train_baseline.ipynb`) | Not started — **next up** |
+| End-to-end demo (`04_demo.ipynb`) | Done — loads checkpoint, scores plates, plots results |
 | Report — abstract, intro, related work | Done |
-| Report — method, experiments, conclusion | Not started |
+| Report — method, experiments, conclusion | In progress |
+
+**Trained model results (val set):**
+- mIoU 103-class: 14.7% — mIoU 7 food groups: 51.3%
+- Top classes: broccoli 80.1%, carrot 71.7%, corn 68.9%
+- Best food group: vegetables 67.8%, whole grains 66.1%
 
 ---
 
