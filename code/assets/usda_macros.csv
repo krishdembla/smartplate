@@ -1,0 +1,8 @@
+food_group,kcal_per_100g,protein_g,carb_g,fat_g
+vegetables,35,2,7,0.3
+fruits,60,1,15,0.3
+whole_grains,340,12,65,3.0
+healthy_protein,180,22,2,9.0
+refined_grains,360,8,75,2.0
+red_processed_meat,290,20,1,22.0
+sugary_fatty,450,5,55,22.0

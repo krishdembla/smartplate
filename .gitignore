@@ -1,0 +1,40 @@
+# R artifacts
+.Rhistory
+.RData
+
+# macOS
+.DS_Store
+__MACOSX/
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.venv/
+*.egg-info/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Model weights and large binaries
+*.safetensors
+*.pt
+*.bin
+*.npy
+
+# Dataset cache (auto-downloaded by notebooks)
+~/.cache/huggingface/
+
+# Claude assistant files
+.claude/
+
+# LaTeX build artifacts
+report/*.aux
+report/*.log
+report/*.out
+report/*.bbl
+report/*.blg
+report/*.synctex.gz
+report/*.fls
+report/*.fdb_latexmk
+report/sec/*.aux

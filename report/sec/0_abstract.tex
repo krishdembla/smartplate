@@ -1,0 +1,7 @@
+\begin{abstract}
+We introduce \textbf{SmartPlate}, a lightweight vision system that turns a single photograph of a plate of food into (i) a semantic segmentation of its components, (ii) a coarse nutritional breakdown, and (iii) a 0--100 \emph{healthy-plate} score grounded in the Harvard Healthy Eating Plate rubric.
+Building on a SegFormer-B0 transformer backbone fine-tuned on the FoodSeg103 benchmark, we aggregate the $103$ predicted food classes into $7$ Harvard food groups and convert per-class pixel areas into group-level proportions that drive a simple, interpretable scoring formula.
+We compare the segmentation pipeline against a ResNet-50 multi-label classification baseline trained on the same data.
+Experiments on the FoodSeg103 validation split report per-class mean IoU, per-food-group mean IoU, and qualitative plate scorings on held-out images.
+The system is designed to run end-to-end on consumer hardware (Apple Silicon / PyTorch MPS) and exposes the full pipeline in a reproducible Jupyter notebook.
+\end{abstract}

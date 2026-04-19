@@ -1,0 +1,23 @@
+\section{Introduction}
+\label{sec:intro}
+
+Diet-related chronic disease is one of the largest modifiable drivers of population health, and smartphone cameras have made it trivial to record what we eat.
+What has proven stubbornly hard is converting a single photograph of a plate into actionable feedback:
+how balanced is this meal, and does it resemble the kind of plate nutritional guidelines recommend?
+A growing body of computer-vision work targets pieces of this problem---food classification~\cite{bossard2014food101}, detection~\cite{matsuda2012uecfood}, and segmentation~\cite{wu2021foodseg103}---but most published pipelines stop at \emph{identification} and leave the leap from ``broccoli, rice, chicken'' to ``was this a good meal?'' to the user.
+
+\textbf{SmartPlate.}
+We tackle the full pipeline from RGB image to dietary feedback in a deliberately lightweight way.
+Given a single plate photo, we (i) predict a pixel-level segmentation across $103$ fine-grained food categories using a SegFormer-B0~\cite{xie2021segformer} fine-tuned on FoodSeg103~\cite{wu2021foodseg103}, (ii) aggregate the per-pixel predictions into $7$ food groups drawn from the Harvard Healthy Eating Plate~\cite{harvardplate}, and (iii) score each plate on a $0$--$100$ scale using a transparent, rule-based rubric that rewards meeting the Harvard target proportions and penalizes refined grains, red or processed meat, and sugary/fatty items.
+The same pixel-area proportions drive a coarse nutritional breakdown through a per-group USDA~\cite{usdafdc} macro lookup.
+
+Our framing deliberately favors an \emph{interpretable} scoring module over a learned regressor: the score comes from a short formula over food-group proportions, so the reason a plate receives the score it does is trivially auditable.
+This keeps the learned component of the system narrowly scoped to the part of the problem where learning adds real value---\emph{where on the image is the broccoli?}---and leaves dietary judgement to a published rubric.
+
+\textbf{Contributions.}
+\begin{enumerate}
+    \item An end-to-end pipeline from a raw plate image to a Harvard-aligned healthy-plate score plus a coarse nutritional breakdown, all runnable on a single Apple Silicon laptop.
+    \item A fine-tuned SegFormer-B0 food-segmentation model with quantitative evaluation at both $103$-class and $7$-group granularity on the FoodSeg103 validation split.
+    \item A ResNet-50~\cite{he2016resnet} multi-label classification baseline trained on the same data, giving a controlled comparison of what pixel-level outputs buy us over image-level outputs for this task.
+    \item An interpretable, closed-form scoring function, plus a hand-built mapping from the $103$ FoodSeg103 classes to the $7$ Harvard food groups that we release alongside the code.
+\end{enumerate}

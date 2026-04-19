@@ -1,0 +1,105 @@
+class_id,class_name,food_group
+0,background,background
+1,candy,sugary_fatty
+2,egg tart,sugary_fatty
+3,french fries,sugary_fatty
+4,chocolate,sugary_fatty
+5,biscuit,sugary_fatty
+6,popcorn,whole_grains
+7,pudding,sugary_fatty
+8,ice cream,sugary_fatty
+9,cheese butter,sugary_fatty
+10,cake,sugary_fatty
+11,wine,background
+12,milkshake,sugary_fatty
+13,coffee,background
+14,juice,sugary_fatty
+15,milk,background
+16,tea,background
+17,almond,healthy_protein
+18,red beans,healthy_protein
+19,cashew,healthy_protein
+20,dried cranberries,fruits
+21,soy,healthy_protein
+22,walnut,healthy_protein
+23,peanut,healthy_protein
+24,egg,healthy_protein
+25,apple,fruits
+26,date,fruits
+27,apricot,fruits
+28,avocado,fruits
+29,banana,fruits
+30,strawberry,fruits
+31,cherry,fruits
+32,blueberry,fruits
+33,raspberry,fruits
+34,mango,fruits
+35,olives,vegetables
+36,peach,fruits
+37,lemon,fruits
+38,pear,fruits
+39,fig,fruits
+40,pineapple,fruits
+41,grape,fruits
+42,kiwi,fruits
+43,melon,fruits
+44,orange,fruits
+45,watermelon,fruits
+46,steak,red_processed_meat
+47,pork,red_processed_meat
+48,chicken duck,healthy_protein
+49,sausage,red_processed_meat
+50,fried meat,sugary_fatty
+51,lamb,red_processed_meat
+52,sauce,background
+53,crab,healthy_protein
+54,fish,healthy_protein
+55,shellfish,healthy_protein
+56,shrimp,healthy_protein
+57,soup,background
+58,bread,refined_grains
+59,corn,whole_grains
+60,hamburg,red_processed_meat
+61,pizza,refined_grains
+62,hanamaki baozi,refined_grains
+63,wonton dumplings,refined_grains
+64,pasta,refined_grains
+65,noodles,refined_grains
+66,rice,refined_grains
+67,pie,sugary_fatty
+68,tofu,healthy_protein
+69,eggplant,vegetables
+70,potato,refined_grains
+71,garlic,vegetables
+72,cauliflower,vegetables
+73,tomato,vegetables
+74,kelp,vegetables
+75,seaweed,vegetables
+76,spring onion,vegetables
+77,rape,vegetables
+78,ginger,vegetables
+79,okra,vegetables
+80,lettuce,vegetables
+81,pumpkin,vegetables
+82,cucumber,vegetables
+83,white radish,vegetables
+84,carrot,vegetables
+85,asparagus,vegetables
+86,bamboo shoots,vegetables
+87,broccoli,vegetables
+88,celery stick,vegetables
+89,cilantro mint,vegetables
+90,snow peas,vegetables
+91,cabbage,vegetables
+92,bean sprouts,vegetables
+93,onion,vegetables
+94,pepper,vegetables
+95,green beans,vegetables
+96,French beans,vegetables
+97,king oyster mushroom,vegetables
+98,shiitake,vegetables
+99,enoki mushroom,vegetables
+100,oyster mushroom,vegetables
+101,white button mushroom,vegetables
+102,salad,vegetables
+103,other ingredients,background
