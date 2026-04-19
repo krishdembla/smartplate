@@ -57,10 +57,13 @@ POSITIVE_WEIGHTS: Dict[str, float] = {
 
 # Penalty strength for each negative group's proportion on the plate.
 NEGATIVE_PENALTIES: Dict[str, float] = {
-    "refined_grains": 0.40,
-    "red_processed_meat": 0.60,
-    "sugary_fatty": 0.80,
+    "refined_grains": 0.15,      # rice/bread are suboptimal, not harmful
+    "red_processed_meat": 0.35,  # penalized but has protein value
+    "sugary_fatty": 0.80,        # junk food stays heavily penalized
 }
+
+# Red meat counts as partial protein toward the positive base (0 = none, 1 = full).
+RED_MEAT_PROTEIN_CREDIT: float = 0.50
 
 
 # ---- Class-to-group mapping loading -----------------------------------------
@@ -126,8 +129,8 @@ def score_plate(proportions: Dict[str, float]) -> float:
     """0–100 healthy-plate score from food-group proportions.
 
     Decomposes into three signals:
-      base       = 100 × fraction of the plate that's a positive food group
-      balance    = up to 30% reduction of base for imbalance vs Harvard targets
+      base       = 100 × (positive food fraction + half-credit for red meat protein)
+      balance    = up to 15% reduction of base for imbalance vs Harvard targets
       penalty    = deductions proportional to negative-group coverage
 
     Ideal Harvard plate → 100. Empty/all-junk plate → 0. Results clipped to [0, 100].
@@ -139,12 +142,14 @@ def score_plate(proportions: Dict[str, float]) -> float:
     if sum(proportions.values()) == 0:
         return 0.0
 
-    positive_frac = sum(proportions[g] for g in POSITIVE_GROUPS)
+    # Red meat contributes partial credit as a protein source toward the base.
+    protein_credit = proportions["red_processed_meat"] * RED_MEAT_PROTEIN_CREDIT
+    positive_frac = sum(proportions[g] for g in POSITIVE_GROUPS) + protein_credit
     base = 100.0 * positive_frac
 
     # L1 distance to ideal targets, normalized to [0, 1] (max L1 is 2).
     l1 = sum(abs(proportions[g] - HARVARD_TARGETS[g]) for g in POSITIVE_GROUPS)
-    balance_penalty = base * 0.30 * (l1 / 2.0)
+    balance_penalty = base * 0.15 * (l1 / 2.0)
 
     negative_penalty = 100.0 * sum(
         NEGATIVE_PENALTIES[g] * proportions[g] for g in NEGATIVE_GROUPS
@@ -289,7 +294,12 @@ def _self_tests() -> None:
     veg_only = {g: 0.0 for g in ALL_GROUPS}
     veg_only["vegetables"] = 1.0
     s = score_plate(veg_only)
-    assert 60 < s < 90, f"All-vegetable plate should score mid-high, got {s}"
+    assert 70 < s < 100, f"All-vegetable plate should score high, got {s}"
+
+    steak_only = {g: 0.0 for g in ALL_GROUPS}
+    steak_only["red_processed_meat"] = 1.0
+    s = score_plate(steak_only)
+    assert 5 < s < 25, f"All-steak plate should score low but not 0, got {s}"
 
     empty = {g: 0.0 for g in ALL_GROUPS}
     assert score_plate(empty) == 0.0
