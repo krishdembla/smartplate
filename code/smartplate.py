@@ -1,15 +1,4 @@
-"""SmartPlate shared helpers.
-
-Pure functions for:
-    - Aggregating predicted segmentation masks into food-group proportions.
-    - Scoring a plate against the Harvard Healthy Eating Plate rubric.
-    - Looking up nutritional macros per food group.
-    - Visualizing masks as overlays on the original image.
-    - Running a single-image SegFormer inference.
-
-All functions take plain Python/NumPy inputs so they can be unit-tested
-without a model loaded.
-"""
+"""SmartPlate shared helpers: mask → proportions → score + macros + visualization."""
 
 from __future__ import annotations
 
@@ -21,7 +10,7 @@ import numpy as np
 from PIL import Image
 
 
-# ---- Food groups and Harvard Healthy Eating Plate rubric --------------------
+# food groups and Harvard Healthy Eating Plate rubric
 
 POSITIVE_GROUPS: Tuple[str, ...] = (
     "vegetables",
@@ -66,7 +55,7 @@ NEGATIVE_PENALTIES: Dict[str, float] = {
 RED_MEAT_PROTEIN_CREDIT: float = 0.50
 
 
-# ---- Class-to-group mapping loading -----------------------------------------
+# class-to-group mapping
 
 def load_class_to_group(csv_path: str | Path) -> Dict[int, str]:
     """Load a hand-built class_id → food_group mapping from CSV.
@@ -90,7 +79,7 @@ def load_class_to_group(csv_path: str | Path) -> Dict[int, str]:
     return mapping
 
 
-# ---- Mask → proportions -----------------------------------------------------
+# mask → proportions
 
 def mask_to_proportions(
     mask: np.ndarray,
@@ -123,7 +112,7 @@ def mask_to_proportions(
     return {g: group_counts[g] / total_food for g in ALL_GROUPS}
 
 
-# ---- Scoring ---------------------------------------------------------------
+# scoring
 
 def score_plate(proportions: Dict[str, float]) -> float:
     """0–100 healthy-plate score from food-group proportions.
@@ -159,7 +148,7 @@ def score_plate(proportions: Dict[str, float]) -> float:
     return max(0.0, min(100.0, score))
 
 
-# ---- Nutritional lookup -----------------------------------------------------
+# nutritional lookup
 
 def load_macros(csv_path: str | Path) -> Dict[str, Dict[str, float]]:
     """Load per-food-group macros from CSV.
@@ -200,7 +189,7 @@ def proportions_to_macros(
     return totals
 
 
-# ---- Visualization ----------------------------------------------------------
+# visualization
 
 def _distinct_colors(n: int, seed: int = 0) -> np.ndarray:
     """Return ``n`` visually distinct RGB colors (uint8)."""
@@ -257,7 +246,7 @@ def overlay_mask(
     return blended.clip(0, 255).astype(np.uint8)
 
 
-# ---- Inference --------------------------------------------------------------
+# inference
 
 def predict_mask(model, processor, image: Image.Image, device: str = "mps") -> np.ndarray:
     """Run a HuggingFace SegFormer on a single PIL image. Returns H×W class-id mask."""
@@ -276,7 +265,7 @@ def predict_mask(model, processor, image: Image.Image, device: str = "mps") -> n
     return upsampled.argmax(dim=1)[0].cpu().numpy().astype(np.int32)
 
 
-# ---- Quick self-tests -------------------------------------------------------
+# self-tests
 
 def _self_tests() -> None:
     """Sanity checks that can run without a trained model."""

@@ -1,8 +1,0 @@
-food_group,precision,recall,f1
-vegetables,0.904,0.914,0.909
-fruits,0.833,0.847,0.84
-whole_grains,0.941,0.864,0.901
-healthy_protein,0.664,0.673,0.669
-refined_grains,0.755,0.799,0.776
-red_processed_meat,0.719,0.704,0.711
-sugary_fatty,0.682,0.677,0.679
