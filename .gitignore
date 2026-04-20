@@ -19,6 +19,7 @@ __pycache__/
 # Large binary model weights (not the 14 MB SegFormer-B0 checkpoint)
 *.bin
 *.npy
+*.pt
 
 # Smoke test training history (not meaningful — real run history lives in Drive)
 code/checkpoints/train_history.json
