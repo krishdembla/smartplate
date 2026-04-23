@@ -13,7 +13,7 @@ Third, the class-to-group mapping was constructed manually and reflects Western 
 Fourth, the scoring formula is calibrated to the Harvard rubric, which is itself a simplification of nutritional science; it does not account for individual dietary needs, cooking method, or micronutrient content.
 
 \paragraph{Future work.}
-Several extensions are straightforward given the modular pipeline design.
+The pipeline's modular design makes a number of extensions tractable.
 Replacing SegFormer-B0 with a larger backbone (B2 or B5) or using a promptable segmentation model such as FoodSAM~\cite{lan2023foodsam} could substantially improve fine-grained class accuracy.
 Incorporating depth or multi-view imagery (as in Nutrition5k~\cite{thames2021nutrition5k}) would enable plate-mass estimation and more accurate macro prediction.
 On the scoring side, the fixed rubric could be replaced by a personalized model that adapts targets to a user's dietary profile, allergies, or clinical goals.

@@ -69,4 +69,4 @@ To quantify what pixel-level segmentation buys over image-level classification, 
 The ImageNet-pretrained backbone's fully-connected head is replaced with a 7-way linear layer followed by sigmoid activations, one output per Harvard food group.
 A group is labeled as present (positive) in a training image if its ground-truth pixel proportion exceeds $5\%$ of the food area; the prediction threshold at inference is $0.40$.
 The model is trained for $10$ epochs with AdamW ($\text{lr}=10^{-4}$, weight decay $= 10^{-4}$) and a cosine annealing scheduler, using binary cross-entropy loss.
-Crucially, this model predicts \emph{which} food groups are present but not \emph{how much} of each, so it cannot produce a health score --- establishing the necessity of pixel-level proportions for this task.
+This model predicts \emph{which} food groups are present but not \emph{how much} of each, so it cannot produce a health score --- establishing the necessity of pixel-level proportions for this task.

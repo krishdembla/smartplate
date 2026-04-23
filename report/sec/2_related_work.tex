@@ -2,25 +2,24 @@
 \label{sec:related}
 
 \paragraph{Food classification and detection.}
-Early work cast food understanding as whole-image classification.
-Food-101~\cite{bossard2014food101} established the canonical benchmark with $101$ dishes and $1$k images per class and has driven deep-network baselines for over a decade.
-UECFood-100 and UECFood-256~\cite{matsuda2012uecfood} added bounding-box annotations so that multiple items on a tray can be localized.
-These datasets treat each dish as an atomic unit, which works well for restaurant menus but poorly for home-cooked plates where a single dish is itself a mixture (e.g., a stir-fry).
-SmartPlate targets the mixed-plate regime explicitly and therefore operates at the level of \emph{ingredient}, not dish.
+Early work treated food understanding as whole-image classification.
+Food-101~\cite{bossard2014food101} introduced the canonical benchmark with $101$ dish categories and $1{,}000$ images per class and has driven deep-network baselines for over a decade.
+UECFood-100 and UECFood-256~\cite{matsuda2012uecfood} added bounding-box annotations for multi-item trays.
+Both families treat each dish as an atomic unit, which works for restaurant menus but poorly for home-cooked plates where a single serving is itself a mixture of ingredients.
+SmartPlate targets this mixed-plate setting and therefore operates at ingredient level rather than dish level.
 
 \paragraph{Food segmentation.}
-Pixel-level food understanding started with small, single-cuisine datasets such as UNIMIB2016 and became tractable at scale with FoodSeg103~\cite{wu2021foodseg103}, which provides $7{,}118$ images spanning $103$ ingredient classes with dense masks.
-Subsequent work has pushed quality with stronger backbones (DeepLabV3+~\cite{chen2018deeplabv3plus}) and promptable segmentation (FoodSAM~\cite{lan2023foodsam}, which composes the Segment Anything Model~\cite{kirillov2023sam} with a food classifier).
-We fine-tune SegFormer~\cite{xie2021segformer} on FoodSeg103 because its hierarchical MiT encoder and lightweight MLP decoder strike a favorable accuracy/parameter trade-off and fit comfortably on a laptop GPU through the MPS backend.
+Pixel-level food understanding started with small, single-cuisine datasets and became tractable at scale with FoodSeg103~\cite{wu2021foodseg103}, which covers $103$ ingredient classes with dense pixel masks across $7{,}118$ images.
+Stronger backbones such as DeepLabV3+~\cite{chen2018deeplabv3plus} have raised the bar on this benchmark, and more recent work like FoodSAM~\cite{lan2023foodsam} composes the Segment Anything Model~\cite{kirillov2023sam} with a food classifier to support prompted segmentation.
+We fine-tune SegFormer~\cite{xie2021segformer} on FoodSeg103; its hierarchical MiT encoder and lightweight all-MLP decoder give a favorable accuracy-to-parameter ratio and train in under an hour on a single T4 GPU.
 
 \paragraph{Nutrition estimation.}
-Prior pipelines for nutrition estimation fall into two camps.
-Dataset-driven regression, exemplified by Nutrition5k~\cite{thames2021nutrition5k}, uses RGB-D recordings of dishes with ground-truth ingredient masses to directly regress calories and macros.
-Rule-based pipelines, instead, recognize ingredients (via classification or segmentation) and look up a reference table~\cite{usdafdc}.
-Regression can be more accurate when depth or turntable imagery is available but is brittle outside the training distribution and does not naturally expose \emph{why} a plate is judged the way it is.
-SmartPlate follows the second line: we estimate ingredient proportions from a single RGB image and look up per-group macros from USDA FoodData Central~\cite{usdafdc}, keeping the final score a transparent function of observable quantities.
+Existing nutrition-estimation pipelines fall into two camps.
+Regression-based approaches, typified by Nutrition5k~\cite{thames2021nutrition5k}, use RGB-D recordings paired with ground-truth ingredient masses to regress macros directly; these can be accurate but require depth sensors and tend to generalize poorly outside the training distribution.
+Rule-based pipelines instead identify ingredients via classification or segmentation and look up a reference table~\cite{usdafdc}.
+SmartPlate follows the second approach: proportions come from a single RGB image, macros are looked up per group from USDA FoodData Central~\cite{usdafdc}, and the final score is a transparent function of those proportions.
 
 \paragraph{Dietary scoring rubrics.}
-Operationalizing ``healthy eating'' as a score has a long history in nutrition epidemiology, most notably the Healthy Eating Index family used by the USDA.
-We adopt the Harvard Healthy Eating Plate~\cite{harvardplate} because its visual target---half vegetables and fruits, a quarter whole grains, a quarter healthy protein---maps naturally onto the per-class pixel proportions produced by a semantic segmentation model.
-To our knowledge this pairing of a public dietary rubric with a laptop-scale food segmenter has not been reported in prior computer-vision work.
+Mapping plate composition to a scalar health score has a long history in nutrition epidemiology, most notably through the Healthy Eating Index used in USDA dietary surveys.
+We adopt the Harvard Healthy Eating Plate~\cite{harvardplate} because its visual prescription---half the plate vegetables and fruits, a quarter whole grains, a quarter healthy protein---maps directly onto per-class pixel-area proportions from a segmentation model.
+To our knowledge, this pairing of a publicly available dietary rubric with a laptop-scale food segmenter has not been reported in prior computer-vision work.
