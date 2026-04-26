@@ -1,8 +1,0 @@
-\begin{abstract}
-We present SmartPlate, a vision pipeline that converts a single RGB photograph of a food plate into a pixel-level food segmentation, a $7$-group nutritional breakdown, and a $0$--$100$ healthy-plate score.
-The scoring follows the Harvard Healthy Eating Plate rubric: a SegFormer-B0~\cite{xie2021segformer} fine-tuned on FoodSeg103~\cite{wu2021foodseg103} produces per-pixel predictions across $103$ food classes, which we aggregate into $7$ groups whose pixel-area proportions feed a closed-form scoring formula.
-All stages after segmentation are deterministic, making the final score fully auditable from the pixel mask.
-We also train a ResNet-50~\cite{he2016resnet} multi-label classifier on the same data as a controlled baseline; it can identify which food groups appear on a plate but cannot quantify how much of each, showing that pixel-level proportions are necessary for dietary scoring.
-On the FoodSeg103 validation split the segmentation model achieves a $7$-group mean IoU of $51.3\%$, and health scores on held-out plates track visible plate composition.
-The full pipeline runs on a single Apple Silicon laptop via the PyTorch MPS backend.
-\end{abstract}
